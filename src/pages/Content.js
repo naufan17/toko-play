@@ -9,7 +9,7 @@ export default function Content() {
     const {id} = useParams();
 
     return (
-        <div className="bg-gradient-to-r from-indigo-100">       
+        <div className="bg-gradient-to-r from-indigo-100">
             <Video
                 id = {id}
             />

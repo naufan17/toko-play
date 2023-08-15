@@ -5,12 +5,11 @@ import Card from './Card';
 
 export default function Content() {
     const [videos, setVideos] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
-    const [searchQuery, setSearchQuery] = useState([]);
     
     useEffect(() => {
         getAllVideo();
-    });
+
+    }, []);
     
     const getAllVideo = async () => {
         try {
@@ -20,20 +19,37 @@ export default function Content() {
             console.error('Error fetching data:', error);
         }
     };
+
+    const handleSearch = (event) => {
+        const keyword = event.target.value;
+
+        if (keyword === '') {
+            getAllVideo();
+        } else {
+            setVideos(videos.filter((video) => video.title.toLowerCase().includes(keyword.toLowerCase())));
+        }
+    }
       
     return (
-        <div className="grid gap-5 lg:grid-cols-4 md:grid-cols-2 sm:max-w-sm md:max-w-full lg:max-w-full sm:mx-auto">
-            {videos.map(video => {
-                return(
-                    <Card
-                        id = {video._id}
-                        title = {video.title}
-                        thumbnail = {video.thumbnail}
-                        views = {video.views}
-                        url = {'content'}
-                    />
-                )
-            })}
-        </div>
+        <section className="p-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:p-8 lg:p-12">
+            <div className=" bg-indigo-100 rounded-2xl p-4 sm:p-8 shadow-xl">
+                <div className="flex flex-row items-center w-full mb-4 sm:flex-row">
+                    <input type="search" placeholder="Search Video" onChange={handleSearch} className="flex-grow sm:max-w-sm md:max-w-full sm:mx-auto lg:max-w-full sm:h-12 h-10 px-4 mb-3 sm:text-base text-md text-slate-800 placeholder:text-slate-600 bg-transparent border-2 border-slate-400 rounded-lg sm:w-full sm:mb-0 focus:border-slate-600 focus:outline-none focus:shadow-outline"/>
+                </div>
+                <div className="grid gap-6 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 sm:max-w-sm md:max-w-full lg:max-w-full sm:mx-auto">
+                    {videos.map(video => {
+                        return(
+                            <Card
+                                id = {video._id}
+                                title = {video.title}
+                                thumbnail = {video.thumbnail}
+                                views = {video.views}
+                                url = {'content'}
+                            />
+                        )
+                    })}
+                </div>
+            </div>
+        </section>
     );
 }
