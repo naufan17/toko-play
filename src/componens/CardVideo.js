@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Card({id, title, thumbnail, views, url}) {
+export default function CardVideo({id, title, thumbnail, url}) {
   const link = `${url}/${id}`;
 
   return (

@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from 'react';
-import { formatDistanceToNow, addHours, parseISO } from 'date-fns';
 import axios from 'axios';
 
+import ListComment from './ListComment'
 import image from '../assets/image/anonymous.jpg'
 
 export default function Comment({id}) {
     const [comments, setComments] = useState([]);
+    const [commentLoading, setCommentLoading] = useState(true);
     const [username, setUsername] = useState('');
     const [comment, setComment] = useState('');
     const [isUsernameValid, setIsUsernameValid] = useState(true);
@@ -22,7 +23,7 @@ export default function Comment({id}) {
         try {
             const response = await axios.get(`http://localhost:8000/api/comments/${id}`);
             setComments(response.data.comments);
-            console.log(response.data.comments);
+            setCommentLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -30,10 +31,12 @@ export default function Comment({id}) {
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
+        setIsUsernameValid(true);
     };
     
     const handleCommentChange = (event) => {
         setComment(event.target.value);
+        setIsCommentValid(true);
     };
 
     const handleSubmit = async (event) => {
@@ -88,10 +91,16 @@ export default function Comment({id}) {
                                 <label htmlFor="username" className="font-medium text-gray-900">
                                     Username
                                 </label>
+                                {!isUsernameValid && (
+                                    <p className="text-red-500">Username is required*</p>
+                                )}
                                 <input type="text" id="username" value={username} onChange={handleUsernameChange} placeholder="Username" className="w-full px-4 py-2 mt-2 mb-2 bg-transparent border-2 border-slate-400 rounded-lg focus:border-slate-600 focus:outline-none focus:shadow-outline"/>
                                 <label htmlFor="comment" className="font-medium text-gray-900">
                                     Comment
                                 </label>
+                                {!isCommentValid && (
+                                    <p className="text-red-500">Comment is required*</p>
+                                )}
                                 <textarea id="comment" value={comment} onChange={handleCommentChange} placeholder="Comment" className="w-full h-24 px-4 py-2 mt-2 bg-transparent border-2 border-slate-400 rounded-lg focus:border-slate-600 focus:outline-none focus:shadow-outline"></textarea>
                                 <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 mt-2 mb-4 float-right text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ">
                                     Comment
@@ -99,24 +108,23 @@ export default function Comment({id}) {
                                 <hr className="w-full my-6 border border-slate-400" />
                             </form>
                         </div>    
-                        {comments.map((comment) => {
-                            return(
-                                <div className="flex">
-                                    <div className="mr-4">
-                                        <img src={image} className="flex items-center justify-center w-10 h-10 mb-3 rounded-full" alt=''/>
-                                    </div>
-                                    <div>
-                                        <h6 className="mb-2 font-semibold text-gray-900 leading-5">
-                                            {comment.username}<span className="font-normal text-gray-900 text-sm"> - {formatDistanceToNow(addHours(parseISO(comment.created_at), -7))}</span>
-                                        </h6>
-                                        <p className="text-sm text-gray-900">
-                                            {comment.comment}
-                                        </p>
-                                        <hr className="w-full my-6 border border-slate-400" />
-                                    </div>
-                                </div>    
-                            )
-                        })}
+                        {commentLoading ? (
+                            <div className="flex items-center justify-center">
+                                <div className="animate-spin rounded-full border-t-8 border-indigo-500 border-opacity-50 h-32 w-32"></div>
+                            </div>
+                        ) : (
+                            <div>
+                                {comments.map((comment) => {
+                                    return(
+                                        <ListComment
+                                        username = {comment.username}
+                                        comment = {comment.comment}
+                                        created_at = {comment.created_at}
+                                        />
+                                    )
+                                })}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
