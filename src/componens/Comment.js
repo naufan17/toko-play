@@ -11,7 +11,6 @@ export default function Comment({id}) {
     const [comment, setComment] = useState('');
     const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [isCommentValid, setIsCommentValid] = useState(true);
-    const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     
     useEffect(() => {
@@ -72,21 +71,17 @@ export default function Comment({id}) {
             getAllComments();
             setUsername('');
             setComment('');
-            setError('');
         } catch (error) {
-            setError('An error occurred. Please try again later.');
+            console.error('Error fetching data:', error);
         }
       };
 
     return (
         <section className="p-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:p-8 lg:p-12">  
             <div className=" bg-indigo-100 rounded-2xl p-4 sm:p-8 shadow-xl">
-                <div className="max-w-screen-lg ">
-                    <div className="flex flex-col w-full">
-                        <div className="flex">
-                            <div className="mr-4">
-                                <img src={image} className="flex items-center justify-center w-10 h-10 mb-3 rounded-full" alt=''/>
-                            </div>
+                <div className="max-w-screen-lg sm:mx-auto">
+                    <div className="flex flex-col">
+                        <div className="flex-initial">
                             <form onSubmit={handleSubmit}>
                                 <label htmlFor="username" className="font-medium text-gray-900">
                                     Username

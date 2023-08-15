@@ -5,7 +5,7 @@ import image from '../assets/image/anonymous.jpg'
 
 export default function Comment({username, comment, created_at}) {
     return (
-        <div className="flex">
+        <div className="flex-initial">
             <div className="mr-4">
                 <img src={image} className="flex items-center justify-center w-10 h-10 mb-3 rounded-full" alt=''/>
             </div>
