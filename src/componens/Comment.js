@@ -19,7 +19,7 @@ export default function Comment({id}) {
     
     const getAllComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/comments/${id}`);
+            const response = await axios.get(`https://toko-play-api.glitch.me/api/comments/${id}`);
             setComments(response.data.comments);
             setCommentLoading(false);
         } catch (error) {
@@ -58,7 +58,7 @@ export default function Comment({id}) {
             formData.append('username', username);
             formData.append('comment', comment);
 
-            const response = await axios.post('http://localhost:8000/api/comments', 
+            const response = await axios.post('https://toko-play-api.glitch.me/api/comments', 
                 formData.toString(),
                 {
                     headers: {

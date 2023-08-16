@@ -14,7 +14,7 @@ export default function Product({id}) {
     
     const getAllProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/products/${id}`);
+            const response = await axios.get(`https://toko-play-api.glitch.me/api/products/${id}`);
             setProducts(response.data.products);
             setProductLoading(false)
         } catch (error) {

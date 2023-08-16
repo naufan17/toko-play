@@ -14,7 +14,7 @@ export default function Content() {
     
     const getAllVideo = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/videos');
+            const response = await axios.get('https://toko-play-api.glitch.me/api/videos');
             setVideos(response.data.videos);
             setVideoLoading(false)
         } catch (error) {
