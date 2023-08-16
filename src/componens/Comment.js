@@ -2,7 +2,6 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 
 import ListComment from './ListComment'
-import image from '../assets/image/anonymous.jpg'
 
 export default function Comment({id}) {
     const [comments, setComments] = useState([]);
