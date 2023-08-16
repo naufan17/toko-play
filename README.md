@@ -9,7 +9,7 @@ npm install
 ```
 - Built React app:
 ```
-npm run dev
+npm run build
 ```
 - Run this command to start the server:
 ```
